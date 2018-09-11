@@ -1,0 +1,27 @@
+{
+  "name": "javaeereact",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "es6-promise": "^4.2.4",
+    "express": "^4.16.3",
+    "isomorphic-fetch": "^2.2.1",
+    "omdb-client": "^2.0.0",
+    "react": "^16.4.2",
+    "react-bootstrap": "^0.32.3",
+    "react-dom": "^16.4.2",
+    "react-navigation": "^2.12.1",
+    "react-popup": "^0.9.3",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.5",
+    "tunnel": "0.0.5",
+    "webpack": "^3.11.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
