@@ -1,12 +1,13 @@
 import React from 'react';
 
+import './Footer.css';
 
 
 const Footer = () => {
    return(
-      <footer>
-	  Learning Managment System
-	    </footer>
+      <div className="footer">
+	  Footer placeholder
+	    </div>
 	);
 }
 export default Footer;

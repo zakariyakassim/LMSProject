@@ -19,7 +19,6 @@ export class App extends React.Component {
                 <Router>
 				  <React.Fragment>
 				  <Header />
-				  
 				  <Footer />
 				  
                   </React.Fragment>
