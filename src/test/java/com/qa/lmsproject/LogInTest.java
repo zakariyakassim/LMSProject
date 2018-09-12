@@ -65,14 +65,6 @@ public class LogInTest {
 	}
 
 	@Test
-	public void testFindById() {
-		User user = new User("David", "Rymer", "DRymer", "password", "SYSADMIN");
-		entityManager.persist(user);
-		entityManager.flush();
-		assertTrue("Repository not successfully created", userRepo.findById(user.getId()).isPresent());
-	}
-	
-	@Test
 	public void testFindByOneUsername() {
 		User user = new User("David", "Rymer", "DRymer", "password", "SYSADMIN");
 		entityManager.persist(user);

@@ -31,8 +31,7 @@ public class User implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String username;
 
 
 	@Column(nullable = false)
@@ -41,10 +40,6 @@ public class User implements Serializable {
 
 	@Column(nullable = false)
 	private String lastName;
-	
-	
-	@Column(nullable = false)
-	private String username;
 	
 	@Column(nullable = false)
 	private String password;
@@ -62,16 +57,6 @@ public class User implements Serializable {
 	
 	@Column(nullable = false)
 	private boolean loginStatus;
-
-	
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getFirstName() {
 		return firstName;
