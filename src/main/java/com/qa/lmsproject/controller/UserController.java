@@ -58,14 +58,4 @@ public class UserController {
 		myRepository.save(user);
 		return "{\"result\": \"Logout successful!\"}";
 	}
-	
-	@PostMapping("/newUser")
-	public User createUser(@Valid @RequestBody User mSDM) {
-		mSDM.setPassword(BCrypt.hashpw(mSDM.getPassword(), BCrypt.gensalt()));
-		mSDM.setCreatedDate(new Date());
-		return myRepository.save(mSDM);
-	}
-	
-
-
 }
