@@ -13,13 +13,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+
 public class SiteName {
 	
-static WebDriver driver;
+	static ExtentTest test;
+	static ExtentReports report;
+	static WebDriver driver;
 	
 	@BeforeClass
 	public static void init() {
 		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Documents\\chromedriver.exe");
+		report = new ExtentReports("C:\\Users\\Admin\\Documents\\Documentation\\report.html",true);
 	}
 	
 	@Before
@@ -29,6 +35,7 @@ static WebDriver driver;
 	}
 	@Test
 	public void siteName() throws InterruptedException {
+		test = report.startTest("Site Name Test");
 		driver.get("http://localhost:3000/home");
 		
 		WebElement title = driver.findElement(By.xpath("//*[@id=\"navigation\"]/div/a"));
