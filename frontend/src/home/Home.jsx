@@ -5,8 +5,10 @@ const Home = () => {
 	return (
 	<div className="Home-body">
 	 <section>
-      	 <div>
+      	 <div className="home-introduction">
 		 <p> This is the home page </p>
+		 </div>
+		 <div className="">
 		 </div>
 	 </section>
 	 </div>
