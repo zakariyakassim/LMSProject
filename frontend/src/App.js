@@ -14,9 +14,9 @@ export class App extends React.Component {
                 <Router>
 				  <React.Fragment>
 				    <Header />
-				     <Route exact path="/home" component = {Home}/>
-					 <Route exact path="/courses" component = {Courses}/>
-                     <Route exact path="/AddCourse" component = {AddCourse}/>
+				     <Route exact path="/" component = {Home}/>
+					 <Route path="/courses" component = {Courses}/>
+                     <Route path="/AddCourse" component = {AddCourse}/>
 				  <Footer />
 				  
                   </React.Fragment>

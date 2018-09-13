@@ -10,14 +10,14 @@ const MainNav =() => {
   return(
   <Navbar id="navigation">
   <Navbar.Brand>
-  <a href="/home">QC Tutorials</a>
+  <a href="/">QC Tutorials</a>
   </Navbar.Brand>
    <Nav pullRight>
     <NavItem>
         <FormControl type='text' placeholder='find course here'/> 
     </NavItem>
     <NavItem> <Button type='submit'>Search</Button></NavItem>
-    <NavItem eventKey={1} href="/home">HOME</NavItem>
+    <NavItem eventKey={1} href="/">HOME</NavItem>
 	<NavItem  eventKey={2} href="/courses">COURSES</NavItem>
 	<NavDropdown  eventKey="3" title="ACCOUNT" id="nav-dropdown">
           <MenuItem eventKey="3.1" href="/trainerProfile">My Profile</MenuItem>
