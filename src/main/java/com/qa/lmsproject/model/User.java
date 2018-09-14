@@ -16,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = { "createdDate" }, allowGetters = true)
 public class User implements Serializable {
 
+	private static final long serialVersionUID = 2058740394541098471L;
+
 	public User() {
 	}
 
@@ -130,6 +132,14 @@ public class User implements Serializable {
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }
