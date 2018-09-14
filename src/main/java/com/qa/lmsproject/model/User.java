@@ -1,6 +1,5 @@
 package com.qa.lmsproject.model;
 
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,50 +10,53 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
-
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdDate"}, allowGetters = true)
+@JsonIgnoreProperties(value = { "createdDate" }, allowGetters = true)
 public class User implements Serializable {
-	
+
 	public User() {
 	}
-	
-	public User(String firstName, String lastName, String username, String password, String type) {
+
+	public User(String firstName, String lastName, String username, String password, String type, String emailAddress) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.type = type;
+		this.emailAddress = emailAddress;
 	}
 
 	@Id
 	private String username;
 
-
 	@Column(nullable = false)
 	private String firstName;
 
+	@Column(nullable = false)
+	private String emailAddress;
 
 	@Column(nullable = false)
 	private String lastName;
-	
+
 	@Column(nullable = false)
 	private String password;
 	
-//	@Column(nullable = false, updatable = false)
+	@Column(nullable = false)
+	private boolean enabled;
+
+	// @Column(nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private Date createdDate;
-	
+
 	@Column(nullable = false)
 	private String type;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date suspendedUntil;
-	
+
 	@Column(nullable = false)
 	private boolean loginStatus;
 
@@ -89,7 +91,7 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
@@ -121,7 +123,13 @@ public class User implements Serializable {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-	
-}
 
-	
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+}
