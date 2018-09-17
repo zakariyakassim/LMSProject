@@ -51,8 +51,8 @@ public class UserController {
 //	}
 	
 	@GetMapping("/user")
-	public List<User> findUsers() {
-		return myRepository.findAll();
+	public String findUsers() {
+		return "Hello Dale!";
 	}
 	
 	
