@@ -5,8 +5,8 @@ import Footer from './main/Footer';
 import Header from './main/Header';
 import Home from './home/Home';
 import Courses from './course/Courses';
-import AddCourse from './main/AddCourse';
-
+import AddCourse from './addCourse/AddCourse';
+import './App.css';
 
 export class App extends React.Component {
     render() {

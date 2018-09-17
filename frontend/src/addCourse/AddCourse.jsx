@@ -6,6 +6,8 @@ import HelpBlock from "react-bootstrap/es/HelpBlock";
 import Button from "react-bootstrap/es/Button";
 import Col from "react-bootstrap/es/Col";
 
+import './AddCourse.css';
+
 class AddCourse extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -33,6 +35,7 @@ class AddCourse extends React.Component {
 
     render() {
         return (
+		<div className="AddCourse-body">
             <form>
 
                 <FormGroup controlId="formCourse" validationState={this.getValidationState()}>
@@ -59,6 +62,7 @@ class AddCourse extends React.Component {
                     <Button type="submit">Submit Course</Button>
                 </FormGroup>
             </form>
+			</div>
         );
     }
 }
