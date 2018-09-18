@@ -68,12 +68,12 @@ public class CourseModuleController {
 		for(Long i : cmmLongs) {
 			System.out.println("Where is this module "+i);
 			try{
-				Optional<ModuleModel> m = repositoryModule.findOneById(i);
-				json.put("name",m.get().getName());
-				json.put("description",m.get().getDescription());
-				json.put("id",m.get().getId());
-				json.put("lastModifiedDate",m.get().getLastModified());
-				json.put("createDate",m.get().getCreatedDate());
+				ModuleModel m = repositoryModule.findOneById(i);
+				json.put("name",m.getName());
+				json.put("description",m.getDescription());
+				json.put("id",m.getId());
+				json.put("lastModifiedDate",m.getLastModified());
+				json.put("createDate",m.getCreatedDate());
 				jsonArray.put(json);
 			}catch(Exception e){
 				System.out.println("Is there any exception");

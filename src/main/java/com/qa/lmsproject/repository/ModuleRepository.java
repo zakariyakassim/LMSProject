@@ -13,7 +13,7 @@ import com.qa.lmsproject.model.ModuleModel;
 
 public interface ModuleRepository extends JpaRepository<ModuleModel,Long>{
 
-	Optional<ModuleModel> findOneById(Long i);
+	ModuleModel findOneById(Long i);
 
 
 }
