@@ -13,14 +13,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name ="course")
+@Table(name ="module")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"creationDate","lastModifed"},allowGetters = true)
-public class CourseModel implements Serializable{
+public class ModuleModel implements Serializable{
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.TABLE)
-	private Long Id;
+	private Long id;
 	
 	@NotBlank
 	private String name;
@@ -40,27 +40,23 @@ public class CourseModel implements Serializable{
 	@LastModifiedDate
 	private Date lastModified;
 	
-	public CourseModel() {
+	public ModuleModel() {
 		super();
 	}
 
-	
 	public Date getCreatedDate() {
 		return createdDate;
 	}
-
 
 	public Date getLastModified() {
 		return lastModified;
 	}
 
-
 	public void setLastModified() {
 		this.lastModified = new Date();
 	}
 
-
-	public CourseModel(String name, String description) {
+	public ModuleModel(String name, String description) {
 		this.name = name;
 		this.description = description;
 		this.lastModified = new Date();
@@ -92,7 +88,7 @@ public class CourseModel implements Serializable{
 	}
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 	
 	

@@ -3,6 +3,7 @@ package com.qa.lmsproject.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,13 @@ public class CourseController {
 	public List<CourseModel> getAllCourses(){
 		return repo.findAll();
 	}
+	
+	@GetMapping("/course/{name}")
+	public List<CourseModel> getCourseByName(@PathVariable(value = "name") String name){
+		return repo.findUserReg(name);
+	}
+	
+
 	
 	@DeleteMapping("/course/{id}")
 	public ResponseEntity<?> deleteCourse(@PathVariable(value = "id")Long courseId){

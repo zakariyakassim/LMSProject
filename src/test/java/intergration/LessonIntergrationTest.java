@@ -22,18 +22,20 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.qa.lmsproject.LmsprojectApplication;
 import com.qa.lmsproject.model.CourseModel;
+import com.qa.lmsproject.model.LessonModel;
 import com.qa.lmsproject.repository.CourseRepository;
+import com.qa.lmsproject.repository.LessonRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LmsprojectApplication.class})
 @AutoConfigureMockMvc
-public class CourseIntergrationTest {
+public class LessonIntergrationTest {
 
 	@Autowired
 	private MockMvc mvc;
 	
 	@Autowired
-	private CourseRepository repo;
+	private LessonRepository repo;
 	
 //	@After
 //	public void clearDB() {
@@ -43,65 +45,52 @@ public class CourseIntergrationTest {
 	@Test
 	public void findingAndRetrivingFromDatabase()
 		throws Exception{
-		repo.save(new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!"));
-		mvc.perform(get("/api/course")
+		repo.save(new LessonModel("TestLessonName", "Easy", "Mr Wood"));
+		mvc.perform(get("/api/lesson")
 		.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status() 
 		.isOk())
 		.andExpect(content()
 		.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$[0].name", is("Ifty's farm yard animals")));
+		.andExpect(jsonPath("$[0].name", is("TestLessonName")));
 	}
 	
 	@Test
-	public void createCourseTest()
+	public void createLessonTest()
 			throws Exception{
-			mvc.perform(MockMvcRequestBuilders.post("/api/course")
+			mvc.perform(MockMvcRequestBuilders.post("/api/lesson")
 			.contentType(MediaType.APPLICATION_JSON)
-			.content("{\"name\" : \"Ifty's farm yard animals\", \"description\" : \"Come along and join Ifty for some family fun!\"}"))
+			.content("{\"name\" : \"TestLesson\", \"difficulty\" : \"Easy\", \"trainerName\" : \"Mr White\"}"))
 			.andExpect(status()
 			.isOk())
 			.andExpect(content()
 			.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.name", is("Ifty's farm yard animals")));
+			.andExpect(jsonPath("$.name", is("TestLesson")));
 	}
 	
 	@Test
-	public void deleteCourseTest()
+	public void deleteLessonTest()
 			throws Exception{
-			CourseModel course = new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!");
-			repo.save(course);
-			System.out.println("ID: " + course.getId());
-			mvc.perform(MockMvcRequestBuilders.delete("/api/course/" + course.getId())
+			LessonModel lesson = new LessonModel("TestLessonName", "Easy", "Mr Wood");
+			repo.save(lesson);
+			System.out.println("ID: " + lesson.getId());
+			mvc.perform(MockMvcRequestBuilders.delete("/api/lesson/" + lesson.getId())
 			.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
-			System.out.println("ID: " + course.getId());
+			System.out.println("ID: " + lesson.getId());
 	}
 	
 	@Test
-	public void updateCourseTest() throws Exception {
-		CourseModel course = new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!");
-		repo.save(course);
-		mvc.perform(MockMvcRequestBuilders.put("/api/course/" + course.getId())
+	public void updateLessonTest() throws Exception {
+		LessonModel lesson = new LessonModel("TestLessonName", "Easy", "Mr Wood");
+		repo.save(lesson);
+		mvc.perform(MockMvcRequestBuilders.put("/api/lesson/" + lesson.getId())
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"name\" : \"James farm yard animals\", \"description\" : \"Come along and join James for some family fun!\"}"))
+				.content("{\"name\" : \"TestLesson\", \"difficulty\" : \"Easy\", \"trainerName\" : \"Mr White\"}"))
 				.andExpect(status()
 				.isOk())
 				.andExpect(content()
 				.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.name", is("James farm yard animals")));
+				.andExpect(jsonPath("$.name", is("TestLesson")));
 	}
-	
-	@Test
-	public void findCourseReg() throws Exception {
-		repo.save(new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!"));
-		mvc.perform(get("/api/course/ifty")
-		.contentType(MediaType.APPLICATION_JSON))
-		.andExpect(status() 
-		.isOk())
-		.andExpect(content()
-		.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$[0].name", is("Ifty's farm yard animals")));
-	}
-
 }

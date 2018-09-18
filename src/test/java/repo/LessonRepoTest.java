@@ -13,27 +13,28 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.qa.lmsproject.LmsprojectApplication;
-import com.qa.lmsproject.model.CourseModel;
-import com.qa.lmsproject.repository.CourseRepository;
+import com.qa.lmsproject.model.LessonModel;
+import com.qa.lmsproject.model.ModuleModel;
+import com.qa.lmsproject.repository.LessonRepository;
+import com.qa.lmsproject.repository.ModuleRepository;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LmsprojectApplication.class})
 @DataJpaTest
-public class CourseRepoTest {
+public class LessonRepoTest {
 	
 	@Autowired
 	private TestEntityManager entityManager;
 	
 	@Autowired
-	private CourseRepository courseRepo;
+	private LessonRepository lessonRepo;
 	
 	@Test
 	public void retriveByIdTest() {
-		CourseModel model = new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!");
+		LessonModel model = new LessonModel("TestLessonName", "Easy", "Mr Wood");
 		entityManager.persist(model);
 		entityManager.flush(); 
-		assertTrue(courseRepo.findById(model.getId()).isPresent());
+		assertTrue(lessonRepo.findById(model.getId()).isPresent());
 	}
-
 }

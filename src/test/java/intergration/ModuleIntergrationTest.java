@@ -22,18 +22,20 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.qa.lmsproject.LmsprojectApplication;
 import com.qa.lmsproject.model.CourseModel;
+import com.qa.lmsproject.model.ModuleModel;
 import com.qa.lmsproject.repository.CourseRepository;
+import com.qa.lmsproject.repository.ModuleRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LmsprojectApplication.class})
 @AutoConfigureMockMvc
-public class CourseIntergrationTest {
+public class ModuleIntergrationTest {
 
 	@Autowired
 	private MockMvc mvc;
 	
 	@Autowired
-	private CourseRepository repo;
+	private ModuleRepository repo;
 	
 //	@After
 //	public void clearDB() {
@@ -43,20 +45,20 @@ public class CourseIntergrationTest {
 	@Test
 	public void findingAndRetrivingFromDatabase()
 		throws Exception{
-		repo.save(new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!"));
-		mvc.perform(get("/api/course")
+		repo.save(new ModuleModel("Drop Top","Flip Flop"));
+		mvc.perform(get("/api/module")
 		.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status() 
 		.isOk())
 		.andExpect(content()
 		.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$[0].name", is("Ifty's farm yard animals")));
+		.andExpect(jsonPath("$[0].name", is("Drop Top")));
 	}
 	
 	@Test
-	public void createCourseTest()
+	public void createModuleTest()
 			throws Exception{
-			mvc.perform(MockMvcRequestBuilders.post("/api/course")
+			mvc.perform(MockMvcRequestBuilders.post("/api/module")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content("{\"name\" : \"Ifty's farm yard animals\", \"description\" : \"Come along and join Ifty for some family fun!\"}"))
 			.andExpect(status()
@@ -65,43 +67,30 @@ public class CourseIntergrationTest {
 			.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.name", is("Ifty's farm yard animals")));
 	}
-	
 	@Test
-	public void deleteCourseTest()
+	public void deleteModuleTest()
 			throws Exception{
-			CourseModel course = new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!");
-			repo.save(course);
-			System.out.println("ID: " + course.getId());
-			mvc.perform(MockMvcRequestBuilders.delete("/api/course/" + course.getId())
+			ModuleModel module = new ModuleModel("Drop Top","Flip Flop");
+			repo.save(module);
+			System.out.println("ID: " + module.getId());
+			mvc.perform(MockMvcRequestBuilders.delete("/api/module/" + module.getId())
 			.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
-			System.out.println("ID: " + course.getId());
+			System.out.println("ID: " + module.getId());
 	}
 	
 	@Test
-	public void updateCourseTest() throws Exception {
-		CourseModel course = new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!");
-		repo.save(course);
-		mvc.perform(MockMvcRequestBuilders.put("/api/course/" + course.getId())
+	public void updateModuleTest() throws Exception {
+		ModuleModel module = new ModuleModel("Drop Top","Flip Flop");
+		repo.save(module);
+		mvc.perform(MockMvcRequestBuilders.put("/api/module/" + module.getId())
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"name\" : \"James farm yard animals\", \"description\" : \"Come along and join James for some family fun!\"}"))
+				.content("{\"name\" : \"Please Stop\", \"description\" : \"James need to stop saying Drop Top\"}"))
 				.andExpect(status()
 				.isOk())
 				.andExpect(content()
 				.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.name", is("James farm yard animals")));
-	}
-	
-	@Test
-	public void findCourseReg() throws Exception {
-		repo.save(new CourseModel("Ifty's farm yard animals","Come along and join Ifty for some family fun!"));
-		mvc.perform(get("/api/course/ifty")
-		.contentType(MediaType.APPLICATION_JSON))
-		.andExpect(status() 
-		.isOk())
-		.andExpect(content()
-		.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$[0].name", is("Ifty's farm yard animals")));
+				.andExpect(jsonPath("$.name", is("Please Stop")));
 	}
 
 }
