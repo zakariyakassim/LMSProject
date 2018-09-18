@@ -1,3 +1,4 @@
+
 package com.qa.lmsproject.exception;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,9 +27,4 @@ public class ResourceNotFoundException extends RuntimeException {
 	public Object getFieldValue() {
 		return fieldValue;
 	}
-	
 
-	
-	
-
-}
