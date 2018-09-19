@@ -5,6 +5,7 @@ import ControlLabel from "react-bootstrap/es/ControlLabel";
 import HelpBlock from "react-bootstrap/es/HelpBlock";
 import Button from "react-bootstrap/es/Button";
 import Col from "react-bootstrap/es/Col";
+import AddModule from "./AddModule";
 
 import './AddCourse.css';
 
@@ -13,12 +14,17 @@ class AddCourse extends React.Component {
         super(props, context);
 
         this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
             value: ''
         };
     }
 
+	handleSubmit(e){
+		alert('Your course,  ' + this.state.value + '   has been created');
+	}
+	
     getValidationState() {
         const length = this.state.value.length;
         if (length > 10) return 'success';
@@ -36,7 +42,7 @@ class AddCourse extends React.Component {
     render() {
         return (
 		<div className="AddCourse-body">
-            <form>
+            <form id="addCourse-form-container">
 
                 <FormGroup controlId="formCourse" validationState={this.getValidationState()}>
                     <ControlLabel>Course Title</ControlLabel>
@@ -52,14 +58,12 @@ class AddCourse extends React.Component {
 
 
                 <FormGroup controlId="formModule">
-                    <ControlLabel>Add Module</ControlLabel>
-                    <FormControl type="text" placeholder="Module Title"/>
-                    <Button type="button">Add Module</Button>
+                    <AddModule/>
                 </FormGroup>
 
 
                 <FormGroup controlId="formSubmit">
-                    <Button type="submit">Submit Course</Button>
+                    <Button type="submit" onClick={this.handleSubmit}>Submit Course</Button>
                 </FormGroup>
             </form>
 			</div>

@@ -42,12 +42,6 @@ class Login extends React.Component {
 	handleSubmit(e){
 		e.preventDefault();
 		
-		this.setState({submitted:true});
-		
-		const {username, password} = this.state;
-		const {dispatch} = this.props;
-		 if(username && password){
-	  }
 	}
 
     render() {
@@ -89,8 +83,8 @@ class Login extends React.Component {
                    Password
                     </Col>
                 <Col sm={10}>
-				{submitted && !password && <div className="help-block">Password is required</div>
-				 }
+				{submitted && !password && <div className="help-block">Password is required</div>}
+				
                 <FormControl className="loginBar" name="password" value={password} onChange={this.handleChange} type="password" placeholder="Password"/>
                   </Col>
                 </FormGroup>
