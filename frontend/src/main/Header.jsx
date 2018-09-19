@@ -3,10 +3,10 @@ import './Header.css';
 import MainNav from './MainNav';
 
 
-const Header = () => {
+const Header = (props) => {
  return (
 	   <div >
-        <MainNav/>
+        <MainNav />
 		
 	   </div>
     );

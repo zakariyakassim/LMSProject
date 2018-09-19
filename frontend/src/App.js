@@ -9,13 +9,27 @@ import AddCourse from './main/AddCourse';
 
 
 export class App extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+            "data": null,
+        };
+    }
+
+
+    componentDidMount() {
+        fetch('http://localhost:8080/api/coursemodule')
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
+    }
+    
     render() {
         return (
                 <Router>
 				  <React.Fragment>
 				    <Header />
 				     <Route exact path="/" component = {Home}/>
-					 <Route path="/courses" component = {Courses}/>
+					 <Route path="/courses"  render={(props) => <Courses courses = {this.state.data} isAuthed={true} />}/>
                      <Route path="/AddCourse" component = {AddCourse}/>
 				  <Footer />
 				  

@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 import {Nav, Navbar, NavItem, NavDropdown, MenuItem,Button,FormControl} from 'react-bootstrap';
 
 import Login from './Login'
@@ -26,10 +27,7 @@ const MainNav =() => {
 		  <MenuItem href="/AddCourse">Add Course</MenuItem>
     </NavDropdown>
     </Nav>
-	<Nav className="Search">
-	 <NavItem ><FormControl className="search-bar"type='text' id="searchBar" placeholder='find course here'/></NavItem>
-     <NavItem ><Button type='submit'>Search</Button></NavItem >
-	</Nav>
+
   </Navbar>
 	  );
  }
