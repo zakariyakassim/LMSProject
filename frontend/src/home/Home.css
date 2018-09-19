@@ -4,18 +4,21 @@
 	text-align:center;
 	margin-left:auto;
 	margin-right:auto;
+	margin-top:2%;
 }
+
 #home-body{
+	
 	background-color:#FFFFFF;
 	margin-top:0px;
-	height:100%;
+	height:700px;
 	
 }
 
 #home-body #row{
-	
+	margin-top:2%;
 	display: grid;
-	grid-gap: 10px;
+	grid-gap: 80px;
 	grid-template-columns: auto auto;
 	padding: 10px;
 	
