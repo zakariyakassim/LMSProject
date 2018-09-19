@@ -26,7 +26,7 @@ public class SiteName {
 	@BeforeClass
 	public static void init() {
 		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Documents\\chromedriver.exe");
-		report = new ExtentReports("C:\\Users\\Admin\\Documents\\Documentation\\report.html",false);
+		report = new ExtentReports("C:\\Users\\Admin\\Documents\\Documentation\\report.html",true);
 	}
 	
 	@Before

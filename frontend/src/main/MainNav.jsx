@@ -21,8 +21,7 @@ const MainNav =() => {
     <NavItem eventKey={1} href="/">HOME</NavItem>
 	<NavItem  eventKey={2} href="/courses">COURSES</NavItem>
 	<NavDropdown  eventKey="3" title="ACCOUNT" id="nav-dropdown">
-
-		  <MenuItem href="/AddCourse">Add Course</MenuItem>
+		  <MenuItem href="/AddCourse" id="add-course">Add Course</MenuItem>
     </NavDropdown>
     </Nav>
 	<Nav className="Search">

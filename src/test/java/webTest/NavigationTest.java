@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -37,13 +38,18 @@ public class NavigationTest {
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 	}
+	@Test
+	public Void testAddCoursesBtn() {
+		test = report.startTest("Add Course Test");
+		driver.get("http://localhost:3000/AddCourse");
+	}
 	
 	@Test
-	public void homeToCoursePage() {
+	public void testNavigation() {
 		test = report.startTest("Navigation Test");
 		
 		driver.get("http://localhost:3000/");
-        test.log(LogStatus.PASS, "The Browser opens");
+        test.log(LogStatus.PASS, "The Browser opens to the home page ");
 		
 		WebElement courseBtn = (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"navigation\"]/div/ul/li[2]/a")));
 		           courseBtn.click();
@@ -51,12 +57,15 @@ public class NavigationTest {
 
 	try {
 		assertTrue(checkItem.isDisplayed());
-		test.log(LogStatus.PASS, "Can click on the navigation courses button and move to the courses page");
+		test.log(LogStatus.PASS, "Can click on the courses button and verify that its looking at the courses page");
 		}catch(AssertionError ar) {
 			test.log(LogStatus.FAIL, "Did not go to course page");
 		}
-	    WebElement addCourseBtn =(new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"navigation\"]/div/ul[3]/li[3]/ul/li/a")));
-	           addCourseBtn.click();
+	    WebElement accountBtn =(new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"nav-dropdown\"]")));
+	               accountBtn.click();
+	    WebElement addCourseBtn = (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.id("add-course")));
+	               addCourseBtn.click();
+	    
 	    WebElement checkaddCourse = (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.id("addCourse-form-container")));
 	try {
 		assertTrue(checkaddCourse.isDisplayed());
@@ -69,11 +78,28 @@ public class NavigationTest {
          WebElement checkHome = (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"navigation\"]/div/ul/li[2]/a")));
 	try {
 		assertTrue (checkHome.isDisplayed());
-		test.log(LogStatus.PASS, "Selenium test was able to get back to the home page and verify its in the home Page Component");
+		test.log(LogStatus.PASS, "Was able to get back to the home page and verify its in the home Page Component");
 	}catch(AssertionError ar) {
 		test.log(LogStatus.FAIL, "Was unable to locate the Home component to verify that we got back to the home Page");
 	}
 	}
+	
+	@Test
+	public void siteName(){
+		test = report.startTest("Site Name Test");
+		
+		driver.get("http://localhost:3000/");
+		test.log(LogStatus.PASS, "broswer opens");
+	
+		WebElement title = driver.findElement(By.xpath("//*[@id=\"navigation\"]/div/ul[1]/a"));
+		try {
+			assertTrue(title.isDisplayed());
+			test.log(LogStatus.PASS, "'QC Tutorials' is beng displayed");
+			}catch(AssertionError ar) {
+				test.log(LogStatus.FAIL, "Site name not being recognised");
+			}
+	}
+	
 	
 	@After
 	public void shutDown() {
