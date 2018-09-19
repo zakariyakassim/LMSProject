@@ -22,7 +22,7 @@ class AddCourse extends React.Component {
     }
 
 	handleSubmit(e){
-		alert('Your course,  ' + this.state.value + '   has been created');
+		alert('Your course,' + this.state.value + ' has been created');
 	}
 	
     getValidationState() {

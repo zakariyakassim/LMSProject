@@ -1,5 +1,6 @@
 package webTest;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -10,7 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -39,9 +39,54 @@ public class NavigationTest {
 		driver.manage().window().maximize();
 	}
 	@Test
-	public Void testAddCoursesBtn() {
+	public void testAddCoursesBtn() {
 		test = report.startTest("Add Course Test");
+		
 		driver.get("http://localhost:3000/AddCourse");
+		test.log(LogStatus.PASS, "Open broswer to the Add Courses page");
+		
+		WebElement courseTitle = (new WebDriverWait(driver,5)).until(ExpectedConditions.presenceOfElementLocated(By.id("formCourse")));
+		           courseTitle.click();
+		           courseTitle.sendKeys("Java Programming");
+		try {
+			assertTrue(courseTitle.isDisplayed());
+			test.log(LogStatus.PASS, "Inserted Course title");
+		}catch(AssertionError ar) {
+			test.log(LogStatus.FAIL, "Could not insert into the course title");
+		}
+		
+		WebElement courseDescript= (new WebDriverWait(driver,5)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"formAbout\"]")));
+		courseDescript.click();
+		courseDescript.sendKeys("Java Programming description testing");
+		try {
+			assertTrue(courseDescript.isDisplayed());
+			test.log(LogStatus.PASS, "Inserted Course description");
+		}catch(AssertionError ar) {
+			test.log(LogStatus.FAIL, "Could not insert into the course description");
+		}
+		
+		WebElement courseModule= (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"addCourse-form-container\"]/div[3]/div/input")));
+		courseModule.click();
+		courseModule.sendKeys("Java");
+		try {
+			assertTrue(courseModule.isDisplayed());
+			test.log(LogStatus.PASS, "Inserted Course Module title");
+		}catch(AssertionError ar) {
+			test.log(LogStatus.FAIL, "Could not insert into the module");
+		}
+		WebElement courseModuleBtn = (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"addCourse-form-container\"]/div[3]/div/button")));
+		           courseModuleBtn.click();
+		WebElement moduleTitleCheck = (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.id("add-module-table")));
+
+		try {
+		   	assertTrue(moduleTitleCheck.isDisplayed());
+		   	test.log(LogStatus.PASS, "Clicked the module button to add the Java module and is being displayed on the page ");
+		 }catch(AssertionError ar) {
+		   		test.log(LogStatus.FAIL, "Module is not being displayed ");
+		 }
+		WebElement courseSubmiteBtn = (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"addCourse-form-container\"]/div[4]/button")));
+		courseSubmiteBtn.click();
+	
 	}
 	
 	@Test
