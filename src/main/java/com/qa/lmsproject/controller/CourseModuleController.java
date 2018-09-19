@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,10 +50,9 @@ public class CourseModuleController {
 		repo.save(courseModule);
 
 	}
-		
+	@CrossOrigin(origins = "http://localhost:3000")	
     @GetMapping("/coursemodule/{courseId}")
 	public String getModule(@PathVariable (value = "courseId") Long courseId) {
-    	System.out.println("courseId" + courseId);
 		CourseModel course = repositoryCourse.findById(courseId).orElseThrow(()-> new ResourceNotFoundException("Course","id",courseId));
 		
 		
@@ -63,11 +63,12 @@ public class CourseModuleController {
 		for(CourseModuleModel i : CourseModuleModelList) {
 			cmmLongs.add(i.getModuleId().getId());
 		}
+		
 		JSONArray jsonArray = new JSONArray();
-		JSONObject json = new JSONObject();;
+		JSONObject json;
 		for(Long i : cmmLongs) {
-			System.out.println("Where is this module "+i);
 			try{
+				json = new JSONObject();
 				ModuleModel m = repositoryModule.findOneById(i);
 				json.put("name",m.getName());
 				json.put("description",m.getDescription());
@@ -76,11 +77,34 @@ public class CourseModuleController {
 				json.put("createDate",m.getCreatedDate());
 				jsonArray.put(json);
 			}catch(Exception e){
-				System.out.println("Is there any exception");
+				System.out.println("There any exception");
 			}
 		}
 		return jsonArray.toString() ;
-	} 
+	}
 	
+	 @CrossOrigin(origins = "http://localhost:3000")
+	 @GetMapping("/coursemodule")
+	 public String getAllCourseModules(){
+
+		JSONArray jsonArray = new JSONArray();
+		JSONObject json;
+		List<CourseModel> allCourseModels = repositoryCourse.findAll();
+		for(CourseModel i : allCourseModels) {
+			try{
+				json = new JSONObject();
+				json.put("name",i.getName());
+				json.put("description",i.getDescription());
+				json.put("id",i.getId());
+				json.put("lastModifiedDate",i.getLastModified());
+				json.put("createDate",i.getCreatedDate());
+				json.put("modules", getModule(i.getId()));
+				jsonArray.put(json);
+			}catch(Exception e){
+				System.out.println("There any exception");
+			}
+		}
+		return jsonArray.toString() ;
+	}
 
 }
