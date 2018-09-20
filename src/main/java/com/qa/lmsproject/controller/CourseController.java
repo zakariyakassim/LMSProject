@@ -27,6 +27,7 @@ public class CourseController {
 	@Autowired
 	CourseRepository repo;
 	
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/course")
 	public CourseModel createCourse(@Valid @RequestBody CourseModel mSDM) {
 		CourseModel course = new CourseModel(mSDM.getName(),mSDM.getDescription());

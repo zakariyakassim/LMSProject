@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,9 +42,36 @@ public class CourseModuleController {
 	
 	@Autowired
 	private ModuleRepository repositoryModule;
-	 
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping("/addCourseAndModule")
+	public void addCourseAndModule(@RequestBody String string ){
+		JSONObject json = null;
+		try {
+			json = new JSONObject(string);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		CourseModel course = null;
+		try {
+			course = new CourseModel(json.getString("name"),json.getString("description"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		repositoryCourse.save(course);
+		try {
+			for(int i = 0; i < json.getJSONArray("modules").length();i++) {
+				ModuleModel module = new ModuleModel(json.getJSONArray("modules").getJSONObject(i).getString("name"), json.getJSONArray("modules").getJSONObject(i).getString("description"));
+				repositoryModule.save(module);
+				CourseModuleModel courseModule = new CourseModuleModel(course,module);
+				repo.save(courseModule);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
 	@PostMapping("/coursemodule")	
-	public void AddModuleToCourse(@RequestParam("courseId") Long courseId, @RequestParam("moduleId") Long moduleId ) {
+	public void addModuleToCourse(@RequestParam("courseId") Long courseId, @RequestParam("moduleId") Long moduleId ) {
 		CourseModel course = repositoryCourse.findById(courseId).orElseThrow(()-> new ResourceNotFoundException("Course","id",courseId));
 		ModuleModel module = repositoryModule.findById(moduleId).orElseThrow(()-> new ResourceNotFoundException("module","id",moduleId));
 		CourseModuleModel courseModule = new CourseModuleModel(course,module);
