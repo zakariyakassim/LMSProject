@@ -23,7 +23,7 @@ const MainNav =() => {
 	<NavItem  eventKey={2} href="/courses">COURSES</NavItem>
 	<NavDropdown  eventKey="3" title="ACCOUNT" id="nav-dropdown">
 		  <MenuItem href="/AddCourse" id="add-course">Add Course</MenuItem>
-		   <MenuItem href="/AddUser" id="add-user">Add User</MenuItem>
+		 
     </NavDropdown>
     </Nav>
 
