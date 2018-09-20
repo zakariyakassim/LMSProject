@@ -12,6 +12,8 @@ import com.qa.lmsproject.model.User;
 public interface UserRepo extends JpaRepository<User,Long> {
 	
 public Optional<User> findOneByUsername(String username);
+
+public User findByUsername(String username);
 	
 	
 	  
