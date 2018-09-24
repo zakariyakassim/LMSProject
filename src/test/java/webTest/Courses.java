@@ -44,12 +44,6 @@ public class Courses {
 		
 		driver.get("http://localhost:3000/courses");
         test.log(LogStatus.PASS, "browser opens");
-        
-       WebElement element = driver.findElement(By.)
-		
-		
-
-
 	}
 	
 	@After
