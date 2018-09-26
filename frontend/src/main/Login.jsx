@@ -25,9 +25,13 @@ class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-			submitted:false
+			submitted:false,
+			currentUser: null,
+			isAuthenticated: false,
+			isLoading:false
         };
 		this.handleChange = this.handleChange.bind(this);
+		this.handleLogout = this.loadCurrentUser.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleHide() {
@@ -41,16 +45,48 @@ class Login extends React.Component {
 		const {name, value } = e.target ;
 		this.setState({[e.target.id]: e.target.value });
 	}
-	handleSubmit(e) {
+	loadCurrentUser(){
+		this.setState({
+			isLoading:true;
+		});
+		getCurrentUser()
+		.then(response => {
+			this.setState({
+				currentUser: response,
+				isAuthenticated: true,
+				isLoading:false;
+			});
+		});
+	}
+	handleSubmit = async e => {
 		e.preventDefault();
-		const { username, password } = this.state;
-        const { dispatch } = this.props;
-
-}
+		const data = new FormData(this.form);
+		getch(this.form.action, {
+			method: this.form.method,
+		    body:new URLSearchParams(data)
+		})
+		.then (v =>{
+			if(v.redirected) window.location = v.url;
+		})
+		.catch(e => console.warn(e));
+		}
+		}
+		
+	componentWillMount(){
+		this.loadCurrentUser();
+	}
 	
+	handleLogout(redirectTo="/"){
+		localStorage.removeItem(ACCESS_TOKEN);
+		
+		this.setState({
+			currentUser:null,
+			isAuthenticated:false;
+		});
+		this.props.history.push(redirectTo);
+	}
 
     render() {
-		
 		
         return (
             <div className="modal-container">

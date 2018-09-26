@@ -51,10 +51,9 @@ public class LessonModel implements Serializable{
 	@LastModifiedDate
 	private Date lastModified;
 	
-	public LessonModel(String name, String difficulty, String trainerName) {
+	public LessonModel(String name, String content) {
 		this.name = name;
-		this.difficulty = difficulty;
-		this.trainerName = trainerName;
+		this.content = content;
 		this.lastModified = new Date();
 		this.createdDate = new Date();
 	}

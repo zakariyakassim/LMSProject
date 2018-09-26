@@ -28,7 +28,7 @@ public class LessonController {
 	
 	@PostMapping("/lesson")
 	public LessonModel createCourse(@Valid @RequestBody LessonModel mSDM) {
-		LessonModel lesson = new LessonModel(mSDM.getName(),mSDM.getDifficulty(), mSDM.getTrainerName());
+		LessonModel lesson = new LessonModel(mSDM.getName(), mSDM.getContent());
 		return repo.save(lesson);
 	}
 	

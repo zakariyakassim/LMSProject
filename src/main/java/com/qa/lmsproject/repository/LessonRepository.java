@@ -6,4 +6,6 @@ import com.qa.lmsproject.model.LessonModel;
 
 public interface LessonRepository extends JpaRepository<LessonModel,Long>{
 
+	LessonModel findOneById(Long l);
+
 }
