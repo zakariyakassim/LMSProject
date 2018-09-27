@@ -1,6 +1,7 @@
 package com.qa.lmsproject.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qa.lmsproject.exception.ResourceNotFoundException;
+import com.qa.lmsproject.model.CourseModel;
 import com.qa.lmsproject.model.LessonModel;
 import com.qa.lmsproject.model.ModuleLessonModel;
 import com.qa.lmsproject.model.ModuleModel;
@@ -54,8 +56,8 @@ public class ModuleLessonController {
 		}
 		repoLesson.save(lesson);
 		try {
-			for(int i = 0; i < json.getJSONArray("module").length();i++) {
-				ModuleModel module = new ModuleModel(json.getJSONArray("module").getJSONObject(i).getString("name"), json.getJSONArray("module").getJSONObject(i).getString("content"));
+			for(int i = 0; i < json.getJSONArray("modules").length();i++) {
+				ModuleModel module = new ModuleModel(json.getJSONArray("modules").getJSONObject(i).getString("name"), json.getJSONArray("modules").getJSONObject(i).getString("description"));
 				repoModule.save(module);
 				ModuleLessonModel ModuleLesson = new ModuleLessonModel(module,lesson);
 				repo.save(ModuleLesson);
@@ -67,7 +69,7 @@ public class ModuleLessonController {
 	
 	
 	@PostMapping("/lessonModule")
-	public void addLessonToModule(@RequestParam("moduleId") Long moduleId, @RequestParam("lessonId") Long lessonId) {
+	public void addLessonToModule( @RequestParam("lessonId") Long lessonId, @RequestParam("moduleId") Long moduleId) {
 		LessonModel lesson = repoLesson.findById(lessonId).orElseThrow(()-> new ResourceNotFoundException("lesson","id",lessonId));
 		ModuleModel module = repoModule.findById(moduleId).orElseThrow(()-> new ResourceNotFoundException("module","id",moduleId));
 		ModuleLessonModel moduleLesson = new ModuleLessonModel(module,lesson);
@@ -77,14 +79,14 @@ public class ModuleLessonController {
 	
 	@CrossOrigin(origins = "Http://localhost:8080")
 	@GetMapping("/lessonModule/{lessonId}")
-	public String getLesson(@PathVariable (value ="lessonId") Long lessonId) {
+	public String getModule(@PathVariable (value ="lessonId") Long lessonId) {
 		LessonModel lesson = repoLesson.findById(lessonId).orElseThrow(()-> new ResourceNotFoundException("lesson","id",lessonId));
 		
 		List<ModuleLessonModel> ModuleLessonModelList = repo.findAllByLessonId(lesson);
 		List<Long> mLMLong = new ArrayList<Long>();
 		
 		for(ModuleLessonModel l : ModuleLessonModelList) {
-			mLMLong.add(l.getModuleId().getId());
+			mLMLong.add(l.getLessonId().getId());
 		}
 		
 		JSONArray jsonArray = new JSONArray();
@@ -107,6 +109,30 @@ public class ModuleLessonController {
 		}
 			return jsonArray.toString();
 	}
-		
+	 @CrossOrigin(origins = "http://localhost:8080")
+	 @GetMapping("/lessonModule")
+	 public String getAllLessonModules(){
+
+		JSONArray jsonArray = new JSONArray();
+		JSONObject json;
+		List<LessonModel> allLessonModels = repoLesson.findAll();
+		for(LessonModel i : allLessonModels) {
+			try{
+				json = new JSONObject();
+				json.put("name",i.getName());
+				json.put("content",i.getContent());
+				json.put("id",i.getId());
+				json.put("lastModifiedDate",i.getLastModified());
+				json.put("trainerName",i.getTrainerName());
+				json.put("duration",i.getDuration());
+				json.put("modules", getModule(i.getId()));
+				jsonArray.put(json);
+			}catch(Exception e){
+				System.out.println("There any exception");
+			}
+		}
+		return jsonArray.toString() ;
+	}
+
 	
 	}

@@ -4,12 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,13 +22,13 @@ public class ModuleLessonModel implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "moduleId", nullable = false)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnore
 	private ModuleModel moduleId;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "lessonId", nullable = false)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnore
