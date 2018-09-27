@@ -38,7 +38,7 @@ public class ModuleLessonController {
 	@Autowired
 	private LessonRepository repoLesson;
 	
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/addLesson")
 	public void addLesson(@RequestBody String string) {
 		JSONObject json = null;
@@ -77,7 +77,7 @@ public class ModuleLessonController {
 	}
 	
 	
-	@CrossOrigin(origins = "Http://localhost:8080")
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/lessonModule/{lessonId}")
 	public String getModule(@PathVariable (value ="lessonId") Long lessonId) {
 		LessonModel lesson = repoLesson.findById(lessonId).orElseThrow(()-> new ResourceNotFoundException("lesson","id",lessonId));
@@ -109,7 +109,7 @@ public class ModuleLessonController {
 		}
 			return jsonArray.toString();
 	}
-	 @CrossOrigin(origins = "http://localhost:8080")
+	 @CrossOrigin(origins = "http://localhost:3000")
 	 @GetMapping("/lessonModule")
 	 public String getAllLessonModules(){
 

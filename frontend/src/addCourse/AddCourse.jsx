@@ -5,7 +5,9 @@ import ControlLabel from "react-bootstrap/es/ControlLabel";
 import HelpBlock from "react-bootstrap/es/HelpBlock";
 import Button from "react-bootstrap/es/Button";
 import Col from "react-bootstrap/es/Col";
+
 import AddModule from "./AddModule";
+import AddLesson from './AddLesson';
 
 import './AddCourse.css';
 

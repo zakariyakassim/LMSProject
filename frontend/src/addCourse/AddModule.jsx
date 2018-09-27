@@ -3,8 +3,11 @@ import FormGroup from "react-bootstrap/es/FormGroup";
 import FormControl from "react-bootstrap/es/FormControl";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import Button from "react-bootstrap/es/Button";
+import Modal from "react-bootstrap/es/Modal";
 
+import AddLesson from './AddLesson';
 import './AddCourse.css';
+
 
 class AddModule extends React.Component {
     constructor(props) {
@@ -18,6 +21,7 @@ class AddModule extends React.Component {
         this.handleAddMod = this.handleAddMod.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.deleteMod = this.deleteMod.bind(this)
+		this.handleLessonSubmit = this.handleLessonSubmit.bind(this);
 
     }
     handleChange(e) {
@@ -25,6 +29,38 @@ class AddModule extends React.Component {
             textvalue:e.target.value
         });
     }
+	
+	myCallback = (dataFromChild) => {
+
+        this.setState({ listDataFromChild: dataFromChild });
+    }
+	handleLessonSubmit(e){
+		this.state = {
+            name: e.target.value ,
+			difficulty: e.target.value ,
+            content:  e.target.value ,
+        };
+        fetch('http://localhost:8080/api/addLesson', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: this.state.name,
+				difficulty: this.state.difficulty,
+                content: this.state.content
+            })
+        });
+     console.log(this.state.listDataFromChild);		
+    }
+	
+	handleClose= () => {
+    this.setState({ show: false });
+  };
+    handleShow= () => {
+    this.setState({ show: true });
+  };
     handleAddMod() {
         this.state.value.push(this.state.textvalue)
         this.setState(
@@ -45,6 +81,7 @@ class AddModule extends React.Component {
         })
         console.log(this.state.value)
     }
+	
     
     componentDidMount() {
         
@@ -53,19 +90,38 @@ class AddModule extends React.Component {
 
     render() {
         let { value } = this.state;
+		console.log(value);
         return (
+		<div>
             <FormGroup>
                 <ControlLabel> Your Modules </ControlLabel>
-                <FormControl inline type="text" placeholder="Add module here" className="text" onChange={ this.handleChange } />
+                <FormControl inline="true" type="text" placeholder="Add module here" className="text" onChange={ this.handleChange } />
                 <Button type="reset" className="addModule-btn" onClick={this.handleAddMod}>Add module</Button>
                     {value.map((v) => {
-                    return <table id="add-module-table">
+                    return <table id="add-module-table" listitem="true" key={v.toString()}>
+					   <tbody>
                         <tr>
-                            <ul><li style={{padding:'15px'}}>{v}<Button className="module-del-button" bsStyle="danger" bsSize="xsmall" onClick={this.deleteMod.bind(this, v)}>Delete</Button></li></ul>
-                        </tr>
+                            <li style={{padding:'15px'}}>{v}
+							<Button className="module-button" bsStyle="success" bsSize="xsmall" onClick={this.handleShow}>Add Lesson</Button>
+							<Button className="module-button" bsStyle="danger" bsSize="xsmall" onClick={this.deleteMod.bind(this, v)}>Delete</Button>
+							</li>
+						</tr>
+						</tbody>
                         </table>
                 })}
             </FormGroup>
+			<Modal className="addLessonModal" show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+            <Modal.Title>{value}</Modal.Title>
+          </Modal.Header>
+            <AddLesson callbackFromParent={this.myCallback}/>
+
+          <Modal.Footer>
+            <Button onClick={this.handleClose} bsStyle="danger">Close</Button><Button onClick={this.handleLessonSubmit} bsStyle="success">Submit Lesson</Button>
+          </Modal.Footer>
+        </Modal>
+		</div>
+			
         )
     }
 }

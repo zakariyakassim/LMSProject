@@ -1,10 +1,12 @@
 import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import Footer from './main/Footer';
 import Header from './main/Header';
 import Home from './home/Home';
 import Courses from './course/Courses';
+import Course from './course/Course';
 import AddCourse from './addCourse/AddCourse';
 
 
@@ -32,7 +34,8 @@ export class App extends React.Component {
 				    <Header />
 				     <Route exact path="/" component = {Home}/>
 					 <Route path="/courses"  render={(props) => <Courses courses = {this.state.data} isAuthed={true} />}/>
-                     <Route path="/AddCourse" component = {AddCourse}/>
+                     <Route path="/course"  render={(props) => <Course course = {this.state.data} isAuthed={true} />}/>
+					 <Route path="/AddCourse" component = {AddCourse}/>
 
 				  <Footer />
 				  

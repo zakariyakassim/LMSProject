@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import './Course.css';
 import {Nav, Navbar, NavItem, NavDropdown, MenuItem,Button,FormControl} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
+
+import Course from './Course';
 
 class Courses extends React.Component {
 
@@ -23,12 +26,9 @@ class Courses extends React.Component {
 
     }
 
-
-
     render() {
         let cards = [];
         let json = null;
-
 
         if(this.props.courses !== null) {
             for (var i = 0; i<this.props.courses.length; i++) {
@@ -49,15 +49,15 @@ class Courses extends React.Component {
                         <div className="column" >
 
                             <div className="card" >
-                                <h3>{this.props.courses[i].name}</h3>
+				<h3><Link to ="/Course/{id}">{this.props.courses[i].name}</Link></h3>
                                 <p>{this.props.courses[i].description}</p>
                                 <h4>{(modules.length === 0) ? 
                                         false:"Modules"}</h4>
-
                                 {modules}
-
+                              
                             </div>
                         </div>
+						
                     );
                 }
 

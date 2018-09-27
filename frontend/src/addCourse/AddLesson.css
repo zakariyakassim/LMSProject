@@ -1,0 +1,45 @@
+.AddLesson-body{
+	margin-top:1%;
+	margin-right:auto;
+	margin-left:auto;
+	width:80%;
+	background-color:white;
+	height:500px;
+}
+.LessonHeading{
+	width:100%;
+}
+.lesson-left-heading{
+  float:left;	
+  
+}
+.lesson-right-heading{
+  float:left;	
+  margin-top:5%;
+  margin-left:25%;
+}
+.LessonContent{
+	float:left;
+}
+.AddLesson-body .form-control{
+	width:500px;
+}
+
+.AddLesson-body #lesson-content{
+	width:900px;
+}
+
+.modal-content{
+	margin-left:-25%;
+	width:1000px;
+	height:900px
+}
+.modal-footer{
+	position:relative;
+	background-color:white;
+	margin-top:25%;
+	height:90px;
+}
+.modal-footer button{
+	bottom:0px;
+}

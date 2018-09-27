@@ -31,7 +31,6 @@ class Login extends React.Component {
 			isLoading:false
         };
 		this.handleChange = this.handleChange.bind(this);
-		this.handleLogout = this.loadCurrentUser.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleHide() {
@@ -45,23 +44,11 @@ class Login extends React.Component {
 		const {name, value } = e.target ;
 		this.setState({[e.target.id]: e.target.value });
 	}
-	loadCurrentUser(){
-		this.setState({
-			isLoading:true;
-		});
-		getCurrentUser()
-		.then(response => {
-			this.setState({
-				currentUser: response,
-				isAuthenticated: true,
-				isLoading:false;
-			});
-		});
-	}
+	
 	handleSubmit = async e => {
 		e.preventDefault();
 		const data = new FormData(this.form);
-		getch(this.form.action, {
+		fetch(this.form.action, {
 			method: this.form.method,
 		    body:new URLSearchParams(data)
 		})
@@ -70,21 +57,7 @@ class Login extends React.Component {
 		})
 		.catch(e => console.warn(e));
 		}
-		}
-		
-	componentWillMount(){
-		this.loadCurrentUser();
-	}
 	
-	handleLogout(redirectTo="/"){
-		localStorage.removeItem(ACCESS_TOKEN);
-		
-		this.setState({
-			currentUser:null,
-			isAuthenticated:false;
-		});
-		this.props.history.push(redirectTo);
-	}
 
     render() {
 		
@@ -111,17 +84,17 @@ class Login extends React.Component {
 		
             <legend>Please Login</legend>
 			
-            <label for="username">Username</label>
+            <label htmlFor="username">Username</label>
 			
             <input type="text" id="username" name="username"/>
 			<br/>
 			<br/>
-            <label for="password">Password</label>
+            <label htmlFor="password">Password</label>
 			
             <input type="password" id="password" name="password"/>
 			
-            <div class="form-actions">
-                <button type="submit" class="btn">Log in</button>
+            <div className="form-actions">
+                <button type="submit" className="btn">Log in</button>
             </div>
 			
         </fieldset>
