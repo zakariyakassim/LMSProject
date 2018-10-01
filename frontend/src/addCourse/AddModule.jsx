@@ -15,52 +15,18 @@ class AddModule extends React.Component {
         this.state = {
             value: [],
             textvalue : "",
-            test:""
+            test:"",
         }
 
         this.handleAddMod = this.handleAddMod.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.deleteMod = this.deleteMod.bind(this)
-		this.handleLessonSubmit = this.handleLessonSubmit.bind(this);
-
     }
     handleChange(e) {
         this.setState({
             textvalue:e.target.value
         });
     }
-	
-	myCallback = (dataFromChild) => {
-
-        this.setState({ listDataFromChild: dataFromChild });
-    }
-	handleLessonSubmit(e){
-		this.state = {
-            name: e.target.value ,
-			difficulty: e.target.value ,
-            content:  e.target.value ,
-        };
-        fetch('http://localhost:8080/api/addLesson', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: this.state.name,
-				difficulty: this.state.difficulty,
-                content: this.state.content
-            })
-        });
-     console.log(this.state.listDataFromChild);		
-    }
-	
-	handleClose= () => {
-    this.setState({ show: false });
-  };
-    handleShow= () => {
-    this.setState({ show: true });
-  };
     handleAddMod() {
         this.state.value.push(this.state.textvalue)
         this.setState(
@@ -81,8 +47,6 @@ class AddModule extends React.Component {
         })
         console.log(this.state.value)
     }
-	
-    
     componentDidMount() {
         
         this.props.callbackFromParent(this.state.value);
@@ -102,7 +66,7 @@ class AddModule extends React.Component {
 					   <tbody>
                         <tr>
                             <li style={{padding:'15px'}}>{v}
-							<Button className="module-button" bsStyle="success" bsSize="xsmall" onClick={this.handleShow}>Add Lesson</Button>
+							<Button className="module-button" bsStyle="success" bsSize="xsmall" onClick={AddLesson.open('lesson')}>Add Lesson</Button>
 							<Button className="module-button" bsStyle="danger" bsSize="xsmall" onClick={this.deleteMod.bind(this, v)}>Delete</Button>
 							</li>
 						</tr>
@@ -110,14 +74,13 @@ class AddModule extends React.Component {
                         </table>
                 })}
             </FormGroup>
-			<Modal className="addLessonModal" show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
+		    <Modal id="lesson"className="addLessonModal">
+            <Modal.Header closeButton = "true">
             <Modal.Title>{value}</Modal.Title>
           </Modal.Header>
-            <AddLesson callbackFromParent={this.myCallback}/>
-
+            <AddLesson />
           <Modal.Footer>
-            <Button onClick={this.handleClose} bsStyle="danger">Close</Button><Button onClick={this.handleLessonSubmit} bsStyle="success">Submit Lesson</Button>
+            <Button onClick={this.handleClose} bsStyle="danger">Close</Button>
           </Modal.Footer>
         </Modal>
 		</div>

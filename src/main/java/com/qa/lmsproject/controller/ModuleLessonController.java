@@ -56,7 +56,7 @@ public class ModuleLessonController {
 		}
 		repoLesson.save(lesson);
 		try {
-			for(int i = 0; i < json.getJSONArray("modules").length();i++) {
+			for(int i = 0; i < json.getJSONArray("module").length();i++) {
 				ModuleModel module = new ModuleModel(json.getJSONArray("modules").getJSONObject(i).getString("name"), json.getJSONArray("modules").getJSONObject(i).getString("description"));
 				repoModule.save(module);
 				ModuleLessonModel ModuleLesson = new ModuleLessonModel(module,lesson);
@@ -66,7 +66,6 @@ public class ModuleLessonController {
 					event.printStackTrace();
 		}
 	}
-	
 	
 	@PostMapping("/lessonModule")
 	public void addLessonToModule( @RequestParam("lessonId") Long lessonId, @RequestParam("moduleId") Long moduleId) {
@@ -109,30 +108,4 @@ public class ModuleLessonController {
 		}
 			return jsonArray.toString();
 	}
-	 @CrossOrigin(origins = "http://localhost:3000")
-	 @GetMapping("/lessonModule")
-	 public String getAllLessonModules(){
-
-		JSONArray jsonArray = new JSONArray();
-		JSONObject json;
-		List<LessonModel> allLessonModels = repoLesson.findAll();
-		for(LessonModel i : allLessonModels) {
-			try{
-				json = new JSONObject();
-				json.put("name",i.getName());
-				json.put("content",i.getContent());
-				json.put("id",i.getId());
-				json.put("lastModifiedDate",i.getLastModified());
-				json.put("trainerName",i.getTrainerName());
-				json.put("duration",i.getDuration());
-				json.put("modules", getModule(i.getId()));
-				jsonArray.put(json);
-			}catch(Exception e){
-				System.out.println("There any exception");
-			}
-		}
-		return jsonArray.toString() ;
-	}
-
-	
-	}
+}

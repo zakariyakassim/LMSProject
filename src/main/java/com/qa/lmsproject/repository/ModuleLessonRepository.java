@@ -11,8 +11,8 @@ import com.qa.lmsproject.model.ModuleModel;
 
 
 public interface ModuleLessonRepository extends JpaRepository<ModuleLessonModel, Long> {
-	ModuleLessonModel findByLessonId(Long lessonID);
-	ModuleLessonModel findByModuleId(Long moduleID);
+	ModuleLessonModel findByLessonId(LessonModel lessonID);
+	ModuleLessonModel findByModuleId(ModuleModel moduleID);
 	List<ModuleLessonModel> findAllByLessonId(LessonModel lesson);
 	List<ModuleLessonModel> findAllByModuleId(ModuleModel module);
 }
