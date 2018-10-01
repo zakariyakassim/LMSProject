@@ -10,6 +10,9 @@ import FormControl from "react-bootstrap/es/FormControl";
 import ControlLabel from "react-bootstrap/es/ControlLabel";
 import {Nav} from 'react-bootstrap';
 
+import Auth from './AuthService';
+import {checkResponseStatus, loginResponseHandler} from './responseHandler';
+import {defaultErrorHandler} from './errorHandler';
 
 
 import './Login.css';
@@ -23,8 +26,10 @@ class Login extends React.Component {
             show: false
         };
         this.state = {
+			userDetails:{
             username: '',
-            password: '',
+            password: ''
+			},
 			submitted:false,
 			currentUser: null,
 			isAuthenticated: false,
@@ -33,6 +38,27 @@ class Login extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
     }
+	reset = () => {
+		this.setState({
+             userDetails:{
+				username: '',
+				password: ''
+			 },
+			route: '/',
+		error:null});
+	};
+	componentDidMount = async () => {
+		console.log('app mounting....');
+          if (await Auth.loggedIn()){
+				this.setState({route:'login'});
+	};
+	}
+	componentDidUpdate(){
+		if(this.state.route!=='login' && !Auth.loggedIn()){
+			this.setState({route:'login'})
+		}
+	}
+	
     handleHide() {
         this.setState({show: false});
     }
@@ -40,27 +66,45 @@ class Login extends React.Component {
     handleShow() {
         this.setState({show: true});
     }
-	handleChange(e) {
-		const {name, value } = e.target ;
-		this.setState({[e.target.id]: e.target.value });
+	handleChange = (e) => {
+		let {userDetails} = this.state;
+
+		const target = e.target ;
+		
+		userDetails[target.name] = target.value,
+
+		this.setState({userDetails});
 	}
 	
 	handleSubmit = async e => {
+		console.log('login');
 		e.preventDefault();
-		const data = new FormData(this.form);
-		fetch(this.form.action, {
-			method: this.form.method,
-		    body:new URLSearchParams(data)
-		})
-		.then (v =>{
-			if(v.redirected) window.location = v.url;
-		})
-		.catch(e => console.warn(e));
-		}
+
+		fetch('http://localhost:8080/api/login', {
+			method:'POST',
+			headers:{
+				'Accept':'application/json',
+				'content-Type':'application/json'
+			},
+			body:JSON.stringify(this.state.userDetails)
+		}).then(checkResponseStatus)
+		.then(response => loginResponseHandler(response, this.customLoginHandler))
+		.catch(error => defaultErrorHandler(error, this.customLoginHandler));
+	};
+	
+	customLoginHandler = () => {
+		this.setState({route:'login'});
+	};
+	
+	logoutHandler = () => {
+		Auth.logOut();
+		this.reset();
+	};
+		
 	
 
     render() {
-		
+	const {userDetails} = this.state;
         return (
             <div className="modal-container">
 
@@ -78,7 +122,7 @@ class Login extends React.Component {
                         </Modal.Title>
               </Modal.Header>
             <Modal.Body>
-          <form onSubmit={this.handleSubmit} action="{/login}" method="post">
+          <form onSubmit={this.handleSubmit}>
 		  
         <fieldset>
 		
@@ -86,12 +130,12 @@ class Login extends React.Component {
 			
             <label htmlFor="username">Username</label>
 			
-            <input type="text" id="username" name="username"/>
+            <input type="text" id="username" name="username" value={userDetails.username} onChange={this.handleChange}/>
 			<br/>
 			<br/>
             <label htmlFor="password">Password</label>
 			
-            <input type="password" id="password" name="password"/>
+            <input type="password" id="password" name="password" value={userDetails.password} onChange={this.handleChange}/>
 			
             <div className="form-actions">
                 <button type="submit" className="btn">Log in</button>

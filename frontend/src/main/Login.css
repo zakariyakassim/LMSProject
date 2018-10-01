@@ -1,12 +1,11 @@
 .modal-container{
 	margin-left:auto;
 	margin-right:auto;
-}
-.modal-content {
-    width: 500px;
+	
 }
 .modal-body{
-	width:700px;
+	height:90px;
+	width:100%;
 }
 
 .help-block{
@@ -14,4 +13,14 @@
 }
 .col-sm-offset-2{
 	margin-left:30%;
+}
+
+.LoginWrapper .modal-content{
+	margin-left:auto;
+	margin-right:auto;
+    height:300px;
+	width:400px;
+}
+.LoginWrapper .btn btn-default{
+	margin:0px;
 }

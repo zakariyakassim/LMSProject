@@ -19,8 +19,12 @@ export class App extends React.Component {
             "data": null,
         };
     }
-
-
+	
+	 componentDidMount() {
+		 fetch('http://localhost:8080/api/login')
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
+	 }
     componentDidMount() {
         fetch('http://localhost:8080/api/coursemodule')
             .then(response => response.json())
