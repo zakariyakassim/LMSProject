@@ -39,7 +39,7 @@ public class ModuleLessonController {
 	private LessonRepository repoLesson;
 	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@PostMapping("/addLesson")
+	@PostMapping("/addLessonAndModule")
 	public void addLesson(@RequestBody String string) {
 		JSONObject json = null;
 		try {
@@ -56,7 +56,7 @@ public class ModuleLessonController {
 		}
 		repoLesson.save(lesson);
 		try {
-			for(int i = 0; i < json.getJSONArray("module").length();i++) {
+			for(int i = 0; i < json.getJSONArray("modules").length();i++) {
 				ModuleModel module = new ModuleModel(json.getJSONArray("modules").getJSONObject(i).getString("name"), json.getJSONArray("modules").getJSONObject(i).getString("description"));
 				repoModule.save(module);
 				ModuleLessonModel ModuleLesson = new ModuleLessonModel(module,lesson);
@@ -89,9 +89,10 @@ public class ModuleLessonController {
 		}
 		
 		JSONArray jsonArray = new JSONArray();
-		JSONObject jsonObject = new JSONObject();
+		JSONObject jsonObject;
 		for (Long l : mLMLong ) {
 			try {
+				jsonObject = new JSONObject();
 				LessonModel lm = repoLesson.findOneById(l);
 				jsonObject.put("name",  lm.getName());
 				jsonObject.put("qa",  lm.getQa());
@@ -107,5 +108,28 @@ public class ModuleLessonController {
 			}
 		}
 			return jsonArray.toString();
+	}
+	@CrossOrigin(origins = "http://localhost:3000")
+	 @GetMapping("/modulelesson")
+	 public String getAllModuleLessons(){
+
+		JSONArray jsonArray = new JSONArray();
+		JSONObject json;
+		List<LessonModel> allLessonModels = repoLesson.findAll();
+		for(LessonModel i : allLessonModels) {
+			try{
+				json = new JSONObject();
+				json.put("name",i.getName());
+				json.put("content",i.getContent());
+				json.put("id",i.getId());
+				json.put("lastModifiedDate",i.getLastModified());
+				json.put("createDate",i.getCreatedDate());
+				json.put("modules", getModule(i.getId()));
+				jsonArray.put(json);
+			}catch(Exception e){
+				System.out.println("There any exception");
+			}
+		}
+		return jsonArray.toString() ;
 	}
 }

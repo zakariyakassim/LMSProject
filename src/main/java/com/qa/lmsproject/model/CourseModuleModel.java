@@ -17,15 +17,12 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.qa.lmsproject.exception.ResourceNotFoundException;
 import com.qa.lmsproject.repository.CourseRepository;
-import com.qa.lmsproject.repository.ModuleRepository;
 
 @Entity
 @Table(name ="courseModule")
@@ -53,20 +50,15 @@ public class CourseModuleModel implements Serializable{
 	@CreatedDate
 	private Date createdDate;
 	
-
 	public CourseModuleModel() {
 		this.createdDate = new Date();
 	}
 	
-	
-
 	public CourseModuleModel(CourseModel courseId, ModuleModel moduleId) {
 		this.courseId = courseId;
 		this.moduleId = moduleId;
 		this.createdDate = new Date();
 	}
-
-
 
 	public Long getId() {
 		return id;

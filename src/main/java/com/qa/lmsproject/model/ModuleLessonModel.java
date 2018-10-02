@@ -22,13 +22,13 @@ public class ModuleLessonModel implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "moduleId", nullable = false)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnore
 	private ModuleModel moduleId;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "lessonId", nullable = false)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnore
