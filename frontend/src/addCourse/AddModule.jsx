@@ -13,15 +13,23 @@ class AddModule extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+			show:false,
             value: [],
             textvalue : "",
             test:"",
+			listDataFromChild: null
         }
-
         this.handleAddMod = this.handleAddMod.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.deleteMod = this.deleteMod.bind(this)
     }
+	showModalLesson =() =>{
+		this.setState({show: true});
+	}
+	hideModalLesson =() => {
+		this.setState({show: false});
+		
+	}
     handleChange(e) {
         this.setState({
             textvalue:e.target.value
@@ -47,6 +55,11 @@ class AddModule extends React.Component {
         })
         console.log(this.state.value)
     }
+	myCallback = (dataFromChild) => {
+
+        this.setState({ listDataFromChild: dataFromChild });
+    }
+	
     componentDidMount() {
         
         this.props.callbackFromParent(this.state.value);
@@ -66,7 +79,7 @@ class AddModule extends React.Component {
 					   <tbody>
                         <tr>
                             <li style={{padding:'15px'}}>{v}
-							<Button className="module-button" bsStyle="success" bsSize="xsmall" onClick={AddLesson.open('lesson')}>Add Lesson</Button>
+							<Button className="module-button" bsStyle="success" bsSize="xsmall" onClick={this.showModalLesson}>Add Lesson</Button>
 							<Button className="module-button" bsStyle="danger" bsSize="xsmall" onClick={this.deleteMod.bind(this, v)}>Delete</Button>
 							</li>
 						</tr>
@@ -74,15 +87,10 @@ class AddModule extends React.Component {
                         </table>
                 })}
             </FormGroup>
-		    <Modal id="lesson"className="addLessonModal">
-            <Modal.Header closeButton = "true">
-            <Modal.Title>{value}</Modal.Title>
-          </Modal.Header>
-            <AddLesson />
-          <Modal.Footer>
-            <Button onClick={this.handleClose} bsStyle="danger">Close</Button>
-          </Modal.Footer>
-        </Modal>
+		<Modal show={this.state.show}>
+		<AddLesson />
+		</Modal>  
+        <button onClick={this.hideModalLesson}>close</button>		
 		</div>
 			
         )

@@ -80,8 +80,8 @@ class Login extends React.Component {
 		console.log('login');
 		e.preventDefault();
 
-		fetch('http://localhost:8080/api/login', {
-			method:'POST',
+		fetch(this.form.action, {
+			method:this.form.method,
 			headers:{
 				'Accept':'application/json',
 				'content-Type':'application/json'
@@ -93,7 +93,7 @@ class Login extends React.Component {
 	};
 	
 	customLoginHandler = () => {
-		this.setState({route:'login'});
+		this.setState({route:'/login'});
 	};
 	
 	logoutHandler = () => {
@@ -106,11 +106,12 @@ class Login extends React.Component {
     render() {
 	const {userDetails} = this.state;
         return (
-            <div className="modal-container">
+            <div  className="modal-container">
 
                 <p onClick={() => this.setState({show: true})} href="#">LOGIN</p>
 
                 <Modal
+				    id="login-modal-content"
                     show={this.state.show}
                     onHide={this.handleHide}
                     container={this}
@@ -121,8 +122,8 @@ class Login extends React.Component {
                             Login
                         </Modal.Title>
               </Modal.Header>
-            <Modal.Body>
-          <form onSubmit={this.handleSubmit}>
+            <Modal.Body id="login-body">
+          <form name="loginForm" action="/login" method="POST">
 		  
         <fieldset>
 		
@@ -138,7 +139,7 @@ class Login extends React.Component {
             <input type="password" id="password" name="password" value={userDetails.password} onChange={this.handleChange}/>
 			
             <div className="form-actions">
-                <button type="submit" className="btn">Log in</button>
+                <button type="submit" onSubmit={this.handleSubmit} className ="btn">Log in</button>
             </div>
 			
         </fieldset>
