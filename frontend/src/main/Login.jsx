@@ -21,42 +21,42 @@ import './Login.css';
 class Login extends React.Component {
     constructor(props) {
         super(props);
+		
         this.handleHide = this.handleHide.bind(this);
+		this.handleShow = this.handleShow.bind(this);
+		
         this.state = {
             show: false
         };
+		
         this.state = {
-			userDetails:{
             username: '',
-            password: ''
-			},
+            password: '',
 			submitted:false,
 			currentUser: null,
 			isAuthenticated: false,
 			isLoading:false
         };
-		this.handleChange = this.handleChange.bind(this);
+		
+		this.handleChangeUsername = this.handleChangeUsername.bind(this);
+		this.handleChangePassword = this.handleChangePassword.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.getCurrentUser = this.getCurrentUser.bind(this);
+		this.logout = this.logout.bind(this);
     }
-	reset = () => {
-		this.setState({
-             userDetails:{
-				username: '',
-				password: ''
-			 },
-			route: '/',
-		error:null});
-	};
-	componentDidMount = async () => {
-		console.log('app mounting....');
-          if (await Auth.loggedIn()){
-				this.setState({route:'login'});
-	};
+	
+	getCurrentUser = () =>{
+		fetch("/security/getUsername")
+		.then(response => response.text())
+		.then(json => {this.setState({
+			username: json.username
+			});
+		})
+		.catch();  
 	}
-	componentDidUpdate(){
-		if(this.state.route!=='login' && !Auth.loggedIn()){
-			this.setState({route:'login'})
-		}
+	
+	componentWillMount() {
+		this.getCurrentUser();
 	}
 	
     handleHide() {
@@ -66,45 +66,31 @@ class Login extends React.Component {
     handleShow() {
         this.setState({show: true});
     }
-	handleChange = (e) => {
-		let {userDetails} = this.state;
+	onChange = (e)=> {
+		this.user({[e.target.name]:e.target.value});
+	}
+	handleChangeUsername(e){
+		 this.setState({username: e.target.value});
+	}
+	handleChangePassword(e){
+		this.setState({password: e.target.value});	
+	}
 
-		const target = e.target ;
-		
-		userDetails[target.name] = target.value,
-
-		this.setState({userDetails});
+	handleSubmit(e){
+	e.preventDefault();
+	console.log(this.state.username);
 	}
 	
-	handleSubmit = async e => {
-		console.log('login');
-		e.preventDefault();
-
-		fetch(this.form.action, {
-			method:this.form.method,
-			headers:{
-				'Accept':'application/json',
-				'content-Type':'application/json'
-			},
-			body:JSON.stringify(this.state.userDetails)
-		}).then(checkResponseStatus)
-		.then(response => loginResponseHandler(response, this.customLoginHandler))
-		.catch(error => defaultErrorHandler(error, this.customLoginHandler));
-	};
-	
-	customLoginHandler = () => {
-		this.setState({route:'/login'});
-	};
-	
-	logoutHandler = () => {
-		Auth.logOut();
-		this.reset();
-	};
-		
+	logout(){
+		fetch("/logout",{
+			method:"post"
+			})
+		.then(() => window.location = "/").catch("/");
+	}
 	
 
     render() {
-	const {userDetails} = this.state;
+
         return (
             <div  className="modal-container">
 
@@ -123,7 +109,7 @@ class Login extends React.Component {
                         </Modal.Title>
               </Modal.Header>
             <Modal.Body id="login-body">
-          <form name="loginForm" action="/login" method="POST">
+	<form name="f"  action='/login' method="POST">
 		  
         <fieldset>
 		
@@ -131,15 +117,15 @@ class Login extends React.Component {
 			
             <label htmlFor="username">Username</label>
 			
-            <input type="text" id="username" name="username" value={userDetails.username} onChange={this.handleChange}/>
+            <input type="text" id="username" name="username" value={this.username} />
 			<br/>
 			<br/>
             <label htmlFor="password">Password</label>
 			
-            <input type="password" id="password" name="password" value={userDetails.password} onChange={this.handleChange}/>
+            <input type="password" id="password" name="password" value={this.password} />
 			
             <div className="form-actions">
-                <button type="submit" onSubmit={this.handleSubmit} className ="btn">Log in</button>
+                <button type="submit" onClick={this.handleSubmit} className ="btn">Log in</button>
             </div>
 			
         </fieldset>
